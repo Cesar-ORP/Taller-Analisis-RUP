@@ -1,0 +1,28 @@
+@startuml diagrama_componentes
+' RPG Manager · E5 · Diagrama de componentes del módulo Ranking
+skinparam shadowing false
+skinparam componentStyle uml2
+skinparam nodesep 60
+skinparam ranksep 50
+
+package "Módulo Ranking y estadísticas (Python)" {
+  component "ConsolaRanking\n(main.py)" as UI
+  component "RankingService\n(servicio.py)\n--\ncalcular_ranking()\nconsultar_estadisticas()" as SRV
+  component "EstadisticaRepository\n(repositorio.py)\n--\nlistar_con_personaje()" as REPO
+  component "Entidades\n(modelo.py)\nPersonaje · Estadistica · EntradaRanking" as MOD
+}
+
+database "MariaDB · rpg_manager" as DB {
+  component "vista_ranking" as VR
+  component "estadistica" as EST
+}
+
+component "Arena de combate (E3)" as ARENA
+
+UI -down-> SRV : usa IRanking
+SRV -down-> REPO : usa IEstadisticaRepository
+SRV -right-> MOD
+REPO -right-> MOD
+REPO -down-> VR : SELECT (SQL)
+ARENA -down-> EST : actualiza V/D/E\nal terminar combate
+@enduml

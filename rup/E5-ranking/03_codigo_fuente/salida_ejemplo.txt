@@ -1,0 +1,12 @@
+=== RANKING GENERAL (top 10) ===
+ #  Personaje  Clase       V   D   E  Pts
+ 1  Eldrin     Mago        9   1   0   27
+ 2  Sylva      Arquero     8   1   1   25
+ 3  Torvak     Guerrero    8   2   1   25
+ 4  Brena      Guerrero    8   3   1   25
+ 5  Merlina    Mago        3   5   2   11
+ 6  Robin      Arquero     1   4   0    3
+=== RANKING MAGO (top 10) ===
+ #  Personaje  Clase       V   D   E  Pts
+ 1  Eldrin     Mago        9   1   0   27
+ 2  Merlina    Mago        3   5   2   11

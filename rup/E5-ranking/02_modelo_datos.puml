@@ -1,0 +1,57 @@
+@startuml 02_modelo_datos
+' RPG Manager · E5 Ranking y estadísticas · Diagrama ER (MariaDB)
+hide circle
+skinparam linetype ortho
+skinparam shadowing false
+skinparam class {
+  BackgroundColor #FDFDFD
+  BorderColor #2F4F6F
+  HeaderBackgroundColor #DCE6F2
+}
+
+entity "jugador" as jugador {
+  * id_jugador : INT UNSIGNED <<PK>>
+  --
+  * nombre_usuario : VARCHAR(30) <<UQ>>
+  * correo : VARCHAR(100) <<UQ>>
+  * fecha_registro : DATETIME
+}
+
+entity "personaje" as personaje {
+  * id_personaje : INT UNSIGNED <<PK>>
+  --
+  * id_jugador : INT UNSIGNED <<FK>>
+  * nombre : VARCHAR(30) <<UQ>>
+  * clase : ENUM(Guerrero,Mago,Arquero)
+  * nivel : TINYINT UNSIGNED
+  * experiencia : INT UNSIGNED
+}
+
+entity "combate" as combate {
+  * id_combate : INT UNSIGNED <<PK>>
+  --
+  * id_personaje_1 : INT UNSIGNED <<FK>>
+  * id_personaje_2 : INT UNSIGNED <<FK>>
+  id_ganador : INT UNSIGNED <<FK>> (NULL = empate)
+  * turnos : SMALLINT UNSIGNED
+  * fecha : DATETIME
+}
+
+entity "estadistica" as estadistica {
+  * id_estadistica : INT UNSIGNED <<PK>>
+  --
+  * id_personaje : INT UNSIGNED <<FK, UQ>>
+  * victorias : INT UNSIGNED
+  * derrotas : INT UNSIGNED
+  * empates : INT UNSIGNED
+  combates_jugados : INT (calculado)
+  puntaje : INT (calculado = 3V + E)
+  * fecha_actualizacion : DATETIME
+}
+
+jugador ||--o{ personaje : "tiene"
+personaje ||--|| estadistica : "acumula"
+personaje ||--o{ combate : "participa como 1"
+personaje ||--o{ combate : "participa como 2"
+personaje |o--o{ combate : "gana"
+@enduml
